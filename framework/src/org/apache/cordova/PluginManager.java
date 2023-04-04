@@ -32,6 +32,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.Build;
+import android.webkit.RenderProcessGoneDetail;
 
 /**
  * PluginManager is exposed to JavaScript in the Cordova WebView.
@@ -616,5 +617,30 @@ public class PluginManager {
             }
         }
         return handlers;
+    }
+
+    /**
+     * Called when the WebView's render process has exited.
+     *
+     * See https://developer.android.com/reference/android/webkit/WebViewClient#onRenderProcessGone(android.webkit.WebView,%20android.webkit.RenderProcessGoneDetail)
+     *
+     * @return  true if the host application handled the situation that process has exited,
+     *          otherwise, application will crash if render process crashed, or be killed 
+     *          if render process was killed by the system.
+     */
+    public boolean onRenderProcessGone(RenderProcessGoneDetail detail) {
+        boolean result = false;
+        synchronized (this.entryMap) {
+            for (PluginEntry entry : this.entryMap.values()) {
+                CordovaPlugin plugin = pluginMap.get(entry.service);
+                if (plugin != null) {
+                    if (plugin.onRenderProcessGone(app, detail)) {
+                        result = true;
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 }
