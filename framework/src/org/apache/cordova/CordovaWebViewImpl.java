@@ -528,15 +528,28 @@ public class CordovaWebViewImpl implements CordovaWebView {
         loadUrlTimeout++;
 
         // Forward to plugins
-        this.pluginManager.onDestroy();
+              try {
+                //  Block of code to try
+               this.pluginManager.onDestroy();
+              }
+              catch(Exception e) {
+                //  Block of code to handle errors
+              }
 
         // TODO: about:blank is a bit special (and the default URL for new frames)
         // We should use a blank data: url instead so it's more obvious
         this.loadUrl("about:blank");
 
         // TODO: Should not destroy webview until after about:blank is done loading.
-        engine.destroy();
-        hideCustomView();
+              try {
+                //  Block of code to try
+                     engine.destroy();
+                     hideCustomView();
+              }
+              catch(Exception e) {
+                //  Block of code to handle errors
+              }
+
     }
 
     protected class EngineClient implements CordovaWebViewEngine.Client {
