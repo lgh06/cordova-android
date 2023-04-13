@@ -426,6 +426,13 @@ public class SystemWebViewClient extends WebViewClient {
 
     @Override
     public boolean onRenderProcessGone(final WebView view, RenderProcessGoneDetail detail) {
+        try {
+          //  Block of code to try
+          android.os.Process.killProcess(android.os.Process.myPid());
+       }
+       catch(Exception e) {
+         //  Block of code to handle errors
+       }
         return false;
         // Check if there is some plugin which can handle this event
         // PluginManager pluginManager = this.parentEngine.pluginManager;
