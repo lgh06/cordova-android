@@ -426,12 +426,13 @@ public class SystemWebViewClient extends WebViewClient {
 
     @Override
     public boolean onRenderProcessGone(final WebView view, RenderProcessGoneDetail detail) {
+        return false;
         // Check if there is some plugin which can handle this event
-        PluginManager pluginManager = this.parentEngine.pluginManager;
-        if (pluginManager != null && pluginManager.onRenderProcessGone(detail)) {
-            return true;
-        }
+        // PluginManager pluginManager = this.parentEngine.pluginManager;
+        // if (pluginManager != null && pluginManager.onRenderProcessGone(detail)) {
+        //     return true;
+        // }
 
-        return super.onRenderProcessGone(view, detail);
+        // return super.onRenderProcessGone(view, detail);
     }
 }
